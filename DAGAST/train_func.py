@@ -42,10 +42,6 @@ def np_to_torch(img_np, device, requires_grad=False, dtype=torch.float32):
     return torch.tensor(img_np, requires_grad=requires_grad, dtype=dtype, device=device)
 
 
-def init_xavier(m):
-    if type(m) == nn.Linear or type(m) == nn.Conv2d:
-        nn.init.xavier_normal_(m.weight, gain=1.414)
-
 def normalize(v):
     return v / torch.linalg.vector_norm(v)
 

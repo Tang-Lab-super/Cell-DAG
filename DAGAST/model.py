@@ -6,6 +6,11 @@ import torch.nn.functional as F
 import scipy
 from .train_func import *
 
+def init_xavier(m):
+    if type(m) == nn.Linear or type(m) == nn.Conv2d:
+        nn.init.xavier_normal_(m.weight, gain=1.414)
+
+
 ### two acyclic constraint methods
 """
     SCCPowerIteration and PowerIterationGradient is two acyclic constraint methods, 
