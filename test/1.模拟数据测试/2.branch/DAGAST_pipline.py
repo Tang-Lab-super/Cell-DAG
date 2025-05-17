@@ -291,9 +291,9 @@ def run(st_data, st_data_use, args, knn = 30, cutof = 0.1, alpha = 1.0, beta = 0
     ax = sc.pl.umap(adata, color="leiden", palette=umap_color, legend_loc='on data', legend_fontweight='normal')
     plt.savefig(f"{save_folder_trajectory}/5.embedding_umap_cluster_DAGAST_{sel_batch}.pdf")
 
-    nu.plot_spatial(
+    plot_spatial_complex(
         st_data, st_data_use, mode="cluster",
-        value=st_data_use.obs['emb_cluster'], title="emb_cluster",
+        value=st_data_use.obs['emb_cluster'], key="emb_cluster", title="emb_cluster",
         savename=f"{save_folder_trajectory}/5.spatial_cluster_DAGAST_{sel_batch}.pdf"
     )
 

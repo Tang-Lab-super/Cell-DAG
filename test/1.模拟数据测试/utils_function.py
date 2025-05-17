@@ -13,7 +13,7 @@ from anndata import AnnData
 from sklearn.neighbors import kneighbors_graph, NearestNeighbors
 from tqdm import tqdm
 
-import DAGAST_test as nu
+import DAGAST as nu
 
 import warnings
 warnings.filterwarnings("ignore")
