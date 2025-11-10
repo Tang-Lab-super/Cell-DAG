@@ -98,7 +98,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         savename=f"{save_folder_cluster}/spatial_sel_cell.png"
     )
 
-![1](./Tutorial/figs/VisiumHD/1.png)
+![1](./figs/VisiumHD/1.png)
 
 ### 4.Build DAGAST, train DAGAST
 #### 4.1 train_stage1
@@ -131,7 +131,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     plt.axis('off')
     plt.savefig(f"{save_folder_cluster}/2.spatial_cluster_stage1.pdf", dpi=600, bbox_inches='tight')
 
-![2](./Tutorial/figs/VisiumHD/2.png)
+![2](./figs/VisiumHD/2.png)
 
 #### 4.3 train_stage2
     save_folder_trajectory = f"{save_folder}/3.spatial_trajectory/"
@@ -164,7 +164,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         value=st_data_use.obs['ptime'], title="ptime", pointsize=5,
         savename=f"{save_folder_trajectory}/2.spatial_Pseudotime.pdf"
     )
-![3](./Tutorial/figs/VisiumHD/3.png)
+![3](./figs/VisiumHD/3.png)
 
 #### 5.3 UMAP of features
     model.eval()
@@ -183,10 +183,11 @@ This section demonstrates the application of DAGAST for trajectory inference on 
 
     st_data_use.write(save_folder + "/modified_data.h5ad")
 
-![4](./Tutorial/figs/VisiumHD/4.png)
+![4](./figs/VisiumHD/4.png)
 
 
 ---
+
 
 
 
