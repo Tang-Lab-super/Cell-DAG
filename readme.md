@@ -20,3 +20,8 @@ We provide examples of using DAGAST in three classic spatial transcriptome data 
 ## Installation
 
 We use Python 3.8 in the conda environment. The versions of the main dependencies are shown in [requirements.txt](./requirements.txt).
+
+
+## Improvements
+
+We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
