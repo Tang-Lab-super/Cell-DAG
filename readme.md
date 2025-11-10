@@ -11,9 +11,9 @@
 
 We provide examples of using DAGAST in three classic spatial transcriptome data platforms.
 
-[Tutorial 1: Application on SeqFISH mouse embryo dataset.](./Tutorial/SeqFISH-pipeline.md)  
-[Tutorial 2: Application on Stereo-seq axolotl telencephalon brain dataset.](./Tutorial/Stereo-seq-pipeline.md)  
-[Tutorial 3: Application on 10x Visium HD mouse cortex dataset.](./Tutorial/Visium-pipeline.md)
+[Tutorial 1: Application on the SeqFISH dataset of early mouse embryonic development (GSE197353) (Sampath Kumar et al., 2023).](./Tutorial/SeqFISH-pipeline.md)  
+[Tutorial 2: Application on the Stereo-seq dataset of axolotl brain regeneration (CNP0002068) (Wei et al., 2022).](./Tutorial/Stereo-seq-pipeline.md)  
+[Tutorial 3: Application on the Visium HD dataset of the mouse cerebral cortex (10x genomics).](./Tutorial/Visium-pipeline.md)
 
 ---
 
@@ -28,6 +28,7 @@ Development  and application of a dual-branch mechanism-based algorithm for infe
 ## Improvements
 
 We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
+
 
 
 
