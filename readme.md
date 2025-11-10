@@ -21,9 +21,13 @@ We provide examples of using DAGAST in three classic spatial transcriptome data 
 
 We use Python 3.8 in the conda environment. The versions of the main dependencies are shown in [requirements.txt](./requirements.txt).
 
+## Reference and Citation
+
+Development  and application of a dual-branch mechanism-based algorithm for inferring spatial differentiation trajectories of cells in tissues
 
 ## Improvements
 
 We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
+
 
 
