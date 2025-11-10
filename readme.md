@@ -1,7 +1,7 @@
 # DAGAST: Dual Attention-based Graph Autoencoder for Spatial Trajectory Inference
 ## Overview
 
-**DAGAST** is an interpretable deep learning model that is specifically designed to identify patterns of continuous changes in cell states in spatial transcriptomes, such as developmental differentiation trajectories. It can also infer **functional genesets** and **functional spatial domains** that are closely related to the change process, thereby providing new ideas for understanding the mechanism of cell state changes in tissue space.
+**DAGAST** is an interpretable deep learning model designed to decipher cellular developmental trajectories and their regulatory networks from spatial transcriptomics data. By synergistically integrating extracellular microenvironmental signals and intracellular gene regulatory information through a dual-branch attention mechanism, DAGAST accurately infers cell fate transitions and identifies key functional genes and spatial domains governing biological processes.
 
 <p align = "center"><img src="./Tutorial/figs/Flowchart.png" width="500" /></p>
 
@@ -28,6 +28,7 @@ Development  and application of a dual-branch mechanism-based algorithm for infe
 ## Improvements
 
 We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
+
 
 
 
