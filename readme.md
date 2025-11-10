@@ -13,7 +13,7 @@ We provide examples of using DAGAST in three classic spatial transcriptome data 
 
 [Tutorial 1: Application on SeqFISH mouse embryo dataset.](./Tutorial/SeqFISH-pipeline.md)  
 [Tutorial 2: Application on Stereo-seq axolotl telencephalon brain dataset.](./Tutorial/Stereo-seq-pipeline.md)  
-[Tutorial 3: Application on 10x Visium traumatic brain injury (TBI) dataset.](./Tutorial/Visium-pipeline.md)
+[Tutorial 3: Application on 10x Visium HD mouse cortex dataset.](./Tutorial/Visium-pipeline.md)
 
 ---
 
@@ -28,6 +28,7 @@ Development  and application of a dual-branch mechanism-based algorithm for infe
 ## Improvements
 
 We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
+
 
 
 
