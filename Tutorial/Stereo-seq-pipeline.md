@@ -72,7 +72,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     }
 
 
-### Load dataset
+### 3.Load dataset
 
     st_data = sc.read(data_folder + "/st_data.h5")
     df_data_pi = pd.read_csv(f"{data_folder}/results/PI_result.csv", index_col=0)
@@ -137,7 +137,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     trainer.get_Trajectory_Ptime(knn=knn, grid_num=50, smooth=0.5, density=1.0) 
 
 ### 5.Plot results
-
     st_data, st_data_use = trainer.st_data, trainer.st_data_use
     model = trainer.model
 
@@ -174,7 +173,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     plt.subplot(1, 1, 1)
     ax = sc.pl.umap(adata, color="ptime", color_map='Spectral_r')
     plt.savefig(f"{save_folder_trajectory}/3.umap_ptime.pdf")
-
 ![4](./figs/Stereo-seq/4.png)
 
 ### 6.Downstream analysis
@@ -240,7 +238,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     plt.ylabel('Mean of KL divergence', fontsize=12)
     plt.tight_layout()
     plt.savefig(f"{save_folder_trajectory}/important_genes.pdf")
-    
 ![5](./figs/Stereo-seq/5.png)
     
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
@@ -330,9 +327,9 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
       theme(panel.grid =element_blank(),
             axis.text.x =  element_text(size = 6,angle = 45,vjust = 1, hjust = 1, colour = "black"),
             panel.background=element_rect(fill='transparent', color="#000000"))
-
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
