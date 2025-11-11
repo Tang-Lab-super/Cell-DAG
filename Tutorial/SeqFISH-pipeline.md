@@ -210,7 +210,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     plt.ylabel('Mean of KL divergence', fontsize=12)
     plt.savefig(f"{save_folder_trajectory}/0929.barplot_gene_top30.pdf")
 
-
+![5](./figs/SeqFISH/5.png)
 
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
 
@@ -312,6 +312,9 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         value=st_data_use_sel.obs['emb_cluster'], title="subcluster",
         savename=f"{saveFolder_geneAtt_02spatialModule}/2.spatial_{ci}_subcluster1.pdf"
     )
+
+![6](./figs/SeqFISH/6.png)
+
 #### 6.2.2 Identification of gene modules associated with spatial domains
     geneatts = []
     adata_geneatt_label = ['5', '0', '4', '1', '2', '3', '6']
@@ -355,6 +358,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         print(ci)
     adata_geneatt_patten.write_h5ad(f"{saveFolder_geneAtt_02spatialModule}/adata_geneatt_patten.h5")
 
+![7](./figs/SeqFISH/7.png)
 
 #### 6.2.3 Intracellular and extracellular attention coefficients for feature genes in a given spatial domain
 
@@ -490,7 +494,9 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         star_type='mean', cutrate=2.0
     )
 
+![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
