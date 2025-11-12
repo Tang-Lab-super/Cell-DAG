@@ -1,10 +1,11 @@
 # Tutorial 2: Application on Stereo-seq axolotl telencephalon brain dataset.
-In this section, we will demonstrate the use of DAGAST for trajectory inference in Stereo-seq [axolotl telencephalon brain data](https://www.science.org/doi/10.1126/science.abp9444). The original data can be downloaded at https://-db.cngb.org/stomics/artista. We use 15DPI data for demonstration.  
+In this section, we will demonstrate the use of DAGAST for spatial trajectory inference and regulatory network deciphering in Stereo-seq [axolotl telencephalon brain data](https://www.science.org/doi/10.1126/science.abp9444). The original data can be downloaded at https://-db.cngb.org/stomics/artista. We use 15DPI data for demonstration.  
 
 ---
 
 ### 1.Load DAGAST and set path
 
+    ## Load DAGAST
     import os 
     import torch
     import numpy as np
@@ -13,14 +14,12 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     import seaborn as sns
     import matplotlib.pyplot as plt
     from tqdm import tqdm
-
     import DAGAST as dt     # import DAGAST
-
     import warnings
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()   
 
-    ## version and path
+    ## Version and path
     sample_name = "DAGAST"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/Stereo-seq/regeneration/"
@@ -34,7 +33,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     n_genes = 500
     n_neighbors = 9
     n_externs = 10
-
     dt.setup_seed(SEED)
     torch.cuda.empty_cache()     
     device = torch.device('cuda:1')
@@ -51,11 +49,9 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
         "info_type" : "linear",  # nonlinear
         "iter_type" : "SCC",
         "iter_num" : 200,
-
         "neighbor_type" : "noextern",
         "n_neighbors" : 9,
         "n_externs" : 10,
-
         "num_epoch1" : 1000, 
         "num_epoch2" : 1000, 
         "lr" : 0.001, 
@@ -63,14 +59,12 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
         "eps" : 1e-5,
         "scheduler" : None, 
         "SEED" : SEED,
-
         "cutof" : 0.1,
         "alpha" : 1.0,
         "beta" : 0.1,
         "theta1" : 0.1,
         "theta2" : 0.1
     }
-
 
 ### 3.Load dataset
     ## Gene selection by PROST
@@ -137,7 +131,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     trainer.train_stage1(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl") 
 
 #### 4.2 Select the starting cell cluster
-    ## Select starting area (available separately)
     model = torch.load(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl")
     model.eval()
     emb = model.get_emb(isall=False)
@@ -214,29 +207,25 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 ### 6.Downstream analysis
 
     from utils_function import *
-
-    ######################### 目标数据集 #########################
     sample_name = "DAGAST"
     root_path = "/public3/Shigw"
     data_folder = f"{root_path}/datasets/Stereo-seq/regeneration"
     save_folder = f"{data_folder}/results/{sample_name}"
     check_path(save_folder)
-
-    ######################### 准备数据和模型 ########################
-    ##### 导入数据
+    
+    ## 导入数据
     st_data = sc.read(data_folder + "/st_data.h5")
     gene_use = pd.read_csv("/public2/yulong/toyuhan/Stereo_seq_gene_names.csv", header=None)[0].tolist()
     st_data = st_data[:, gene_use]
     sc.pp.normalize_total(st_data, target_sum=1e4) # 不要和log顺序搞反了 ，这个是去文库的
     sc.pp.log1p(st_data)
     sc.pp.scale(st_data)
-
     celltypes_df = pd.read_csv("/public2/yulong/yuhanDir/axolotl_brain_regeneration/Stereo_seq_celltypes.csv", index_col=0) 
     target_cells = celltypes_df.index.tolist()
     mask = st_data.obs_names.isin(target_cells)
     st_data_use = st_data[mask, :]
 
-    ##### 导入模型和迁移矩阵
+    ## 导入模型和迁移矩阵
     SEED = 42
     nu.setup_seed(SEED)
     trj_ori = np.load("/public2/yulong/yuhanDir/axolotl_brain_regeneration/results_Stereo-seq/3.spatial_trajectory/trj_DAGAST.npy")
@@ -244,11 +233,8 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     model.eval()
 
 #### 6.1 Gene contribution scores to cell differentiation trajectory reconstruction
-
-    ######################### 置换检验找特征基因 ########################
     save_folder_trajectory = f"{save_folder}/5.regulation_gene/nptxEX"
-
-    ##### 输出nptxEX发育过程的重要基因
+    ## 输出nptxEX发育过程的重要基因
     cell_use = st_data_use.obs_names.tolist()
     gene_use = st_data_use.var_names.tolist()
 
@@ -264,7 +250,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
     result_permu_sorted.to_csv(f"{save_folder_trajectory}/nptxEX_permutation_single_gene.csv")
     result_permu_sorted.head(30)
 
-    ##### 绘制条形图
+    ## 绘制条形图
     result_permu_sorted = pd.read_csv("/public3/Shigw/datasets/Stereo-seq/regeneration/results/DAGAST/5.regulation_gene/nptxEX/nptxEX_permutation_single_gene.csv", index_col=0)
     plt.close('all')
     plt.figure(figsize=(10, 6))
@@ -277,7 +263,6 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 ![5](./figs/Stereo-seq/5.png)
     
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
-
     att_gene_re_all, att_gene_cc_all, att_cell_all = model.get_encoder_attention()
     att_gene_re = att_gene_re_all
     att_gene_cc = att_gene_cc_all
@@ -366,6 +351,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
