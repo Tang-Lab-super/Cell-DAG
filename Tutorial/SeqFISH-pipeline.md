@@ -1,5 +1,5 @@
 # Tutorial 1: Application on SeqFISH mouse embryo dataset. 
-In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset(Lohoff, T. et al. 2022)](https://doi.org/10.1038/s41587-021-01006-2) for spatial trajectory inference and spatial pseudo-time calculation. The original data can be downloaded from the https://marionilab.cruk.cam.ac.uk/SpatialMouseAtlas/, and the demonstration data uses Embryo1.
+In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset(Lohoff, T. et al. 2022)](https://doi.org/10.1038/s41587-021-01006-2) for spatial trajectory inference and regulatory network deciphering. The original data can be downloaded from the https://marionilab.cruk.cam.ac.uk/SpatialMouseAtlas/, and the demonstration data uses Embryo1.
 
 ---
 
@@ -497,6 +497,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
