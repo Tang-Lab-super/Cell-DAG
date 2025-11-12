@@ -73,6 +73,41 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 
 
 ### 3.Load dataset
+Gene selection:
+    import os 
+    import torch
+    import numpy as np 
+    import pandas as pd 
+    import scanpy as sc 
+    import matplotlib as mpl 
+    import matplotlib.pyplot as plt 
+    from anndata import AnnData
+    import PROST 
+    import warnings 
+    warnings.filterwarnings("ignore") 
+    torch.cuda.empty_cache()   
+
+    def check_path(path):
+        if not os.path.isdir(path):
+            os.mkdir(path)
+            print(f'mkdir {path}')
+    SEED = 24
+    PROST.setup_seed(SEED)
+
+    date = "241202"
+    root_path = "/public3/Shigw/"
+    data_folder = f"{root_path}/datasets/Stereo-seq/regeneration/"
+    save_folder = f"{data_folder}/results/{date}"
+    check_path(save_folder)
+
+    st_data = sc.read(f"{data_folder}/st_data.h5")
+    st_data.var_names_make_unique()
+    n_neighbors = 9
+    st_data_use = st_data.copy()
+    st_data_use = PROST.prepare_for_PI(st_data_use, platform="stereo-seq")
+    st_data_use = PROST.cal_PI(st_data_use, platform="stereo-seq", multiprocess=True)
+    df_gene_metadata = st_data_use.var
+    df_gene_metadata.to_csv(f"{save_folder}/PI_result.csv")
 
     st_data = sc.read(data_folder + "/st_data.h5")
     df_data_pi = pd.read_csv(f"{data_folder}/results/PI_result.csv", index_col=0)
@@ -330,6 +365,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
