@@ -73,7 +73,56 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     }
 
 ### 3.Load dataset
+    ## gene selection
+    cat /data/public/Gene.annotation/mm10/Mus_musculus.GRCm38.98.gtf | grep -v "^#" | awk '$3=="gene"{print $0;}' | grep "protein_coding" | \
+    awk -F'[ ;"]' 'BEGIN{OFS="\t";}{print $13;}' | \
+    grep -v "Rpl" | grep -v "Rps" | grep -v "mt-" | grep -v "Hba-" | grep -v "Hbb-" > mm10_GeneName.txt #21804
 
+    import os 
+    import torch
+    import numpy as np 
+    import pandas as pd 
+    import scanpy as sc 
+    import matplotlib as mpl 
+    import matplotlib.pyplot as plt 
+    from anndata import AnnData
+    from calculate_PI import *
+    from utils import setup_seed
+    import warnings 
+    warnings.filterwarnings("ignore") 
+    torch.cuda.empty_cache()     
+    def check_path(path):
+        if not os.path.isdir(path):
+            os.mkdir(path)
+            print(f'mkdir {path}')
+
+    data_folder = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
+    save_folder = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
+    SEED = 24
+
+    st_data = sc.read_h5ad(data_folder + "/MouseEmbryo_Spatial_0826_resolution3_cortexVisium_RG_CR_CPN_CFuPN.h5ad")
+    st_data.var = st_data.var.set_index(st_data.var.columns[0])
+    gene_use = pd.read_csv(data_folder + "/mm10_GeneName.txt", header=None)[0].tolist()
+    intersection = list(set(st_data.var_names) & set(gene_use))
+    gene_use = intersection
+    st_data = st_data[:, gene_use]
+
+    keyCluster = st_data.obs[st_data.obs['cellType'].isin(["RG","CPN1","CPN2"])]
+    mask = keyCluster.index.tolist()
+    st_data_test = st_data[mask, :]
+
+    sc.pp.normalize_total(st_data_test, target_sum=1e4)
+    sc.pp.log1p(st_data_test)
+    sc.pp.highly_variable_genes(st_data_test, n_top_genes=10000)
+    st_data_test = st_data_test[:, st_data_test.var['highly_variable'].values].copy()
+
+    st_data_test1 = prepare_for_PI(st_data_test.copy(), percentage=0.2, platform="visium")
+    print(st_data_test1.shape)
+    print(st_data_test1.var)
+    column_names = st_data_test1.var_names.tolist()
+    pd.DataFrame(column_names).to_csv(f"{save_folder}/Mouse_gene_names.topGene_perc222.csv", index=False, header=False) # n_top_genes=10000 percentage=0.2
+    
+    ## load data
     st_data = sc.read_h5ad(data_folder_h5ad + "/MouseEmbryo_Spatial_0826_resolution3_cortexVisium_RG_CR_CPN_CFuPN.h5ad")
     sc.pp.normalize_total(st_data, target_sum=1e4)
     sc.pp.log1p(st_data)
@@ -412,6 +461,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
 ![8](./figs/VisiumHD/8.png)
 
 ---
+
 
 
 
