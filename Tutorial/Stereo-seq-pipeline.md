@@ -74,6 +74,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 
 ### 3.Load dataset
 Gene selection:
+---
     import os 
     import torch
     import numpy as np 
@@ -365,6 +366,7 @@ Gene selection:
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
