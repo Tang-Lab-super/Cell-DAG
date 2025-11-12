@@ -73,8 +73,7 @@ In this section, we will demonstrate the use of DAGAST for trajectory inference 
 
 
 ### 3.Load dataset
-Gene selection:
----
+    ## Gene selection by PROST
     import os 
     import torch
     import numpy as np 
@@ -94,7 +93,7 @@ Gene selection:
             print(f'mkdir {path}')
     SEED = 24
     PROST.setup_seed(SEED)
-
+    
     date = "241202"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/Stereo-seq/regeneration/"
@@ -110,6 +109,7 @@ Gene selection:
     df_gene_metadata = st_data_use.var
     df_gene_metadata.to_csv(f"{save_folder}/PI_result.csv")
 
+    ## load data
     st_data = sc.read(data_folder + "/st_data.h5")
     df_data_pi = pd.read_csv(f"{data_folder}/results/PI_result.csv", index_col=0)
     gene_flag = df_data_pi['PI'].nlargest(n_genes).index
@@ -366,6 +366,7 @@ Gene selection:
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
