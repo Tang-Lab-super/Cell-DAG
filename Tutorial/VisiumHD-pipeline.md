@@ -1,10 +1,11 @@
 # Tutorial 3: Application on 10x Visium HD mouse cortex dataset.
-This section demonstrates the application of DAGAST for trajectory inference on the 10x Genomics Visium HD mouse cortex dataset. The raw data are available from the designated link (https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-embryo-fresh-frozen).
+This section demonstrates the application of DAGAST for spatial trajectory inference and regulatory network deciphering on the 10x Genomics Visium HD mouse cortex dataset. The raw data are available from the designated link (https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-embryo-fresh-frozen).
 
 ---
 
 ### 1.Load DAGAST and set path
 
+    ## Load DAGAST
     import os
     import torch
     import numpy as np
@@ -18,7 +19,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()
 
-    ## version and path
+    ## Version and path
     sample_name = "DAGAST"
     data_folder_h5ad = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
     data_folder_pi = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
@@ -52,11 +53,9 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         "info_type" : "nonlinear",  # nonlinear
         "iter_type" : "SCC",
         "iter_num" : 200,
-
         "neighbor_type" : "noextern",
         "n_neighbors" : 9,
         "n_externs" : 10,
-
         "num_epoch1" : 1000,
         "num_epoch2" : 1000,
         "lr" : 0.001,
@@ -64,7 +63,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         "eps" : 1e-5,
         "scheduler" : None,
         "SEED" : SEED,
-
         "cutof" : 0.1,
         "alpha" : 1.0,
         "beta" : 0.1,
@@ -73,7 +71,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     }
 
 ### 3.Load dataset
-    ## gene selection
+    ## Gene selection
     cat /data/public/Gene.annotation/mm10/Mus_musculus.GRCm38.98.gtf | grep -v "^#" | awk '$3=="gene"{print $0;}' | grep "protein_coding" | \
     awk -F'[ ;"]' 'BEGIN{OFS="\t";}{print $13;}' | \
     grep -v "Rpl" | grep -v "Rps" | grep -v "mt-" | grep -v "Hba-" | grep -v "Hbb-" > mm10_GeneName.txt #21804
@@ -122,7 +120,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     column_names = st_data_test1.var_names.tolist()
     pd.DataFrame(column_names).to_csv(f"{save_folder}/Mouse_gene_names.topGene_perc222.csv", index=False, header=False) # n_top_genes=10000 percentage=0.2
     
-    ## load data
+    ## Load data
     st_data = sc.read_h5ad(data_folder_h5ad + "/MouseEmbryo_Spatial_0826_resolution3_cortexVisium_RG_CR_CPN_CFuPN.h5ad")
     sc.pp.normalize_total(st_data, target_sum=1e4)
     sc.pp.log1p(st_data)
@@ -140,13 +138,12 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     mask = keyCluster.index.tolist()
     st_data_use = st_data[mask, :]
 
-    ## show data
+    ## Show data
     dt.plot_spatial_complex(
         st_data, st_data_use, mode="cluster", key="cellType",
         figsize=(5, 5), title=None, pointsize=5,
         savename=f"{save_folder_cluster}/spatial_sel_cell.png"
     )
-
 ![1](./figs/VisiumHD/1.png)
 
 ### 4.Building and training the DAGAST model
@@ -179,7 +176,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     ax = sc.pl.embedding(st_data_use, basis="spatial", color="emb_cluster",size=15, s=10, show=False, title='clustering')
     plt.axis('off')
     plt.savefig(f"{save_folder_cluster}/2.spatial_cluster_stage1.pdf", dpi=600, bbox_inches='tight')
-
 ![2](./figs/VisiumHD/2.png)
 
 #### 4.3 Stage 2 training
@@ -213,7 +209,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         value=st_data_use.obs['ptime'], title="ptime", pointsize=5,
         savename=f"{save_folder_trajectory}/2.spatial_Pseudotime.pdf"
     )
-
 ![3](./figs/VisiumHD/3.png)
 
 #### 5.3 UMAP visualization of spatial pseudotime
@@ -232,33 +227,36 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     plt.savefig(f"{save_folder_trajectory}/3.umap_ptime.pdf")
 
     st_data_use.write(save_folder + "/modified_data.h5ad")
-
 ![4](./figs/VisiumHD/4.png)
 
 ### 6.Downstream analysis
     from utils_function import *
-    ######################### 目标数据集 #########################
+    
+    ## 目标数据集
     data_folder_h5ad = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
     data_folder_gene = "/public3/Shigw/datasets/visiumHD/filteredCPN/results/square_016um_222genes"
     data_folder_model = "/public3/Shigw/datasets/visiumHD/filteredCPN/results/square_016um_222genes/3.spatial_trajectory"
     data_folder_modified = "/public3/Shigw/datasets/visiumHD/filteredCPN/results/square_016um_222genes"
     save_folder = "/public3/Shigw/datasets/visiumHD/filteredCPN/results"
     check_path(save_folder)
-    ######################### 准备数据和模型 ########################
-    ##### 导入数据
+    
+    ## 导入数据
     st_data = sc.read_h5ad(data_folder_h5ad + "/MouseEmbryo_Spatial_0826_resolution3_cortexVisium_RG_CR_CPN_CFuPN.h5ad")
     st_data.var = st_data.var.set_index(st_data.var.columns[0])
+    
     ## 归一化数据
     sc.pp.normalize_total(st_data, target_sum=1e4) # 不要和log顺序搞反了 ，这个是去文库的
     sc.pp.log1p(st_data)
     sc.pp.scale(st_data)
+    
     ## 过滤基因和细胞
     model_data = sc.read_h5ad(data_folder_modified + "/modified_data.h5ad")
     cell_use = model_data.obs_names.tolist()
     gene_use = model_data.var_names.tolist()
     st_data = st_data[:, gene_use]
     st_data_use = st_data[cell_use, :]
-    ##### 导入模型和迁移矩阵
+    
+    ## 导入模型和迁移矩阵
     SEED = 42
     nu.setup_seed(SEED)
     trj_ori = np.load(data_folder_model + "/trj_DAGAST.npy")
@@ -270,9 +268,9 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     att_cell = att_cell_all
     
 #### 6.1 Gene contribution scores to cell differentiation trajectory reconstruction
-    ######################### 置换检验找特征基因 ########################
     save_folder_trajectory = f"{save_folder}/permutation_genes0828new"
-    ##### 输出CPN发育过程的重要基因
+    
+    ## 输出CPN发育过程的重要基因
     nu.setup_seed(SEED)
     torch.cuda.empty_cache()
     device = torch.device('cuda:0')
@@ -284,7 +282,8 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     result_permu_sorted = result_permu_df.sort_values('total_sim', ascending=False)
     result_permu_sorted.to_csv(f"{save_folder_trajectory}/CPN_permutation_single_gene.csv")
     result_permu_sorted.head(30)
-    ##### 绘制条形图
+    
+    ## 绘制条形图
     result_permu_sorted = pd.read_csv(f"{save_folder_trajectory}/CPN_permutation_single_gene.csv", index_col=0)
     plt.close('all')
     plt.figure(figsize=(10, 6))
@@ -294,7 +293,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     plt.ylabel('Mean of KL divergence', fontsize=12)
     plt.tight_layout()
     plt.savefig(f"{save_folder_trajectory}/important_genes.pdf")
-
 ![5](./figs/VisiumHD/5.png)
 
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
@@ -321,8 +319,8 @@ This section demonstrates the application of DAGAST for trajectory inference on 
     sc.tl.leiden(adata_geneatt, resolution=0.35)         # res = 0.5
     print(f"{len(adata_geneatt.obs['leiden'].unique())} clusters")
     adata_geneatt.write_h5ad("/public3/Shigw/datasets/visiumHD/filteredCPN/results/spatial_subcluster/adata_geneatt.h5")
-
     saveFolder_geneAtt_02spatialModule="/public3/Shigw/datasets/visiumHD/filteredCPN/results/spatial_subcluster"
+    
     ## 绘制一下UMAP的类别标签
     plt.close('all')
     fig = plt.figure(figsize=(10, 10))
@@ -334,7 +332,7 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         legend_loc='on data', legend_fontweight='normal')
     plt.savefig(f"{saveFolder_geneAtt_02spatialModule}/2.umap_cluster_cc3.5.pdf")
 
-    ## 看是否有空间上连续性 
+    ## 是否有空间上连续性 
     st_data_use_sel = st_data_use
     st_data_use_sel.obs['emb_cluster'] = adata_geneatt.obs.leiden.values
     nu.plot_spatial_complex(
@@ -342,7 +340,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         value=st_data_use_sel.obs['emb_cluster'], title="subcluster",key="emb_cluster",
         savename=f"{saveFolder_geneAtt_02spatialModule}/2.spatial_subcluster3.5.pdf"
     )
-
 ![6](./figs/VisiumHD/6.png)
 
 #### 6.2.2 Identification of gene modules associated with spatial domains
@@ -390,7 +387,6 @@ This section demonstrates the application of DAGAST for trajectory inference on 
         plt.savefig(f"{saveFolder_geneAtt_02spatialModule}/cc_patten_{ci}.pdf")
 
         print(ci)
-
 ![7](./figs/VisiumHD/7.png)
 
 #### 6.2.3 Intracellular and extracellular attention coefficients for feature genes in a given spatial domain
@@ -457,10 +453,10 @@ This section demonstrates the application of DAGAST for trajectory inference on 
       theme(panel.grid =element_blank(),
             axis.text.x =  element_text(size = 6,angle = 45,vjust = 1, hjust = 1, colour = "black"),
             panel.background=element_rect(fill='transparent', color="#000000"))
-
 ![8](./figs/VisiumHD/8.png)
 
 ---
+
 
 
 
