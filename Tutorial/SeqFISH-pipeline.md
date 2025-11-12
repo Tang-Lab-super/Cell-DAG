@@ -5,6 +5,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 
 ### 1.Load DAGAST and set path
 
+    ## Load DAGAST
     import os 
     import torch
     import numpy as np
@@ -13,14 +14,12 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     import seaborn as sns
     import matplotlib.pyplot as plt
     from tqdm import tqdm
-
     import DAGAST as dt     # import DAGAST
-
     import warnings
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()   
 
-    ## version and path
+    ## Version and path
     sample_name = "DAGAST"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/SeqFISH/"
@@ -33,7 +32,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     knn = 30
     n_neighbors = 9
     n_externs = 10
-
     dt.setup_seed(SEED)
     torch.cuda.empty_cache()     
     device = torch.device('cuda:1')
@@ -50,11 +48,9 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         "info_type" : "nonlinear",  # nonlinear
         "iter_type" : "SCC",
         "iter_num" : 200,
-
         "neighbor_type" : "extern",
         "n_neighbors" : 9,
         "n_externs" : 10,
-
         "num_epoch1" : 1000, 
         "num_epoch2" : 1000, 
         "lr" : 0.001, 
@@ -62,26 +58,24 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         "eps" : 1e-5,
         "scheduler" : None, 
         "SEED" : 24,
-
         "cutof" : 0.1,
         "alpha" : 1.0,
         "beta" : 0.1,
         "theta1" : 0.1,
         "theta2" : 0.1
     }
-
     celltypes = ['Spinal cord', 'NMP']      # target cell
-
 
 ### 3.Load dataset
 
+    ## Load data
     st_data = sc.read_h5ad(data_folder + "/st_data.h5ad")
     sc.pp.normalize_total(st_data, target_sum=1e4)          
     sc.pp.log1p(st_data)
     sc.pp.scale(st_data)
     st_data_use = st_data[st_data.obs.celltypes.isin(celltypes), :].copy()   ## target data 
 
-    ## show data
+    ## Show data
     dt.plot_spatial_complex(
         st_data, st_data_use, mode="cluster", key="celltypes",
         figsize=(5, 5), title=None, pointsize=5, 
@@ -129,7 +123,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     dt.check_path(save_folder_trajectory)
 
     flag = (st_data_use.obs['emb_cluster'].isin(['3'])).values   
-
+    
     trainer.set_start_region(flag)                                  # set start region
     trainer.train_stage2(save_folder_trajectory, sample_name)       # Trajectory inference
     trainer.get_Trajectory_Ptime(knn, grid_num=50, smooth=0.5, density=0.7) 
@@ -215,18 +209,16 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
 
     from utils_function import *
-
     sample_name = "250418"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/SeqFISH/"
     save_folder = f"{data_folder}/results/{sample_name}"
     check_path(save_folder)
 
-    ######################### 准备数据和模型 ########################
     save_folder_trajectory = f"{save_folder}/3.spatial_trajectory/"
     nu.check_path(save_folder_trajectory)
 
-    ##### 导入数据
+    ## 导入数据
     st_data = sc.read_h5ad(data_folder + "/st_data.h5ad")
     sc.pp.normalize_total(st_data, target_sum=1e4) # 不要和log顺序搞反了 ，这个是去文库的
     sc.pp.log1p(st_data)
@@ -239,7 +231,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     n_externs = 10
     kNNGraph_use, indices_use, st_data_sel = get_neighbor(st_data, st_data_use, n_neighbors=n_neighbors, n_externs=n_externs, ntype="extern")
 
-    ##### 导入模型和迁移矩阵
+    ## 导入模型和迁移矩阵
     SEED = 42
     nu.setup_seed(SEED)
     trj_ori = np.load(f"{save_folder_trajectory}/trj_{sample_name}.npy")
@@ -257,7 +249,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     save_folder_attention_gene = "/public3/Shigw/datasets/Stereo-seq/regeneration/results/DAGAST/test/test"
     nu.check_path(save_folder_attention_gene)
 
-    ### 对比细胞内外gene attention，得到坐标相同的两个注意力系数矩阵
+    ## 对比细胞内外gene attention，得到坐标相同的两个注意力系数矩阵
     ci = 'Spinal cord'
     cell_use = st_data_use.obs_names[st_data_use.obs['celltypes'].isin(celltypes_list)].tolist()
     gene_use = st_data_use.var_names.tolist()
@@ -275,8 +267,9 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     ## 提取细胞内gene attention
     att_gene_re_sel = att_gene_re[flag]
     att_gene_re_sel_df = pd.DataFrame(np.mean(att_gene_re_sel, 0), index=gene_use, columns=gene_use)
+    
     #### 6.2.1 Spatial domains based on extracellular attention coefficients
-    # 聚类并提取顺序（按行）
+    ## 聚类并提取顺序（按行）
     saveFolder_geneAtt_02spatialModule = f"{save_folder_attention_gene_ci}/2.spatialModule/"
     nu.check_path(saveFolder_geneAtt_02spatialModule)
 
@@ -497,6 +490,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
