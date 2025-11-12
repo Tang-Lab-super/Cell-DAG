@@ -103,7 +103,7 @@ In this section, we will demonstrate the use of DAGAST for spatial trajectory in
     df_gene_metadata = st_data_use.var
     df_gene_metadata.to_csv(f"{save_folder}/PI_result.csv")
 
-    ## load data
+    ## Load data
     st_data = sc.read(data_folder + "/st_data.h5")
     df_data_pi = pd.read_csv(f"{data_folder}/results/PI_result.csv", index_col=0)
     gene_flag = df_data_pi['PI'].nlargest(n_genes).index
@@ -113,7 +113,7 @@ In this section, we will demonstrate the use of DAGAST for spatial trajectory in
     sc.pp.scale(st_data)
     st_data_use = st_data.copy()   ## target data 
 
-    ## show data
+    ## Show data
     dt.plot_spatial_complex(
         st_data, st_data_use, mode="cluster", key="celltypes",
         figsize=(5, 5), title=None, pointsize=5, 
@@ -234,6 +234,7 @@ In this section, we will demonstrate the use of DAGAST for spatial trajectory in
 
 #### 6.1 Gene contribution scores to cell differentiation trajectory reconstruction
     save_folder_trajectory = f"{save_folder}/5.regulation_gene/nptxEX"
+    
     ## 输出nptxEX发育过程的重要基因
     cell_use = st_data_use.obs_names.tolist()
     gene_use = st_data_use.var_names.tolist()
@@ -351,6 +352,7 @@ In this section, we will demonstrate the use of DAGAST for spatial trajectory in
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
