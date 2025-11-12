@@ -93,7 +93,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     trainer.train_stage1(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl") 
 
 #### 4.2 Select the starting cell cluster
-    ## Select starting area (available separately)
     model = torch.load(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl")
     model.eval()
     emb = model.get_emb(isall=False)
@@ -490,6 +489,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
