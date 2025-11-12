@@ -165,7 +165,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     plt.subplot(1, 1, 1)
     ax = sc.pl.umap(adata, color="ptime", color_map='Spectral_r')
     plt.savefig(f"{save_folder_trajectory}/3.umap_ptime.pdf")
-
 ![4](./figs/SeqFISH/4.png)
 
 ### 6.Downstream analysis
@@ -202,7 +201,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     plt.xlabel('Gene', fontsize=12)
     plt.ylabel('Mean of KL divergence', fontsize=12)
     plt.savefig(f"{save_folder_trajectory}/0929.barplot_gene_top30.pdf")
-
 ![5](./figs/SeqFISH/5.png)
 
 #### 6.2 The synergistic “cell-autonomous and microenvironment interaction” regulatory network
@@ -267,7 +265,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     att_gene_re_sel = att_gene_re[flag]
     att_gene_re_sel_df = pd.DataFrame(np.mean(att_gene_re_sel, 0), index=gene_use, columns=gene_use)
     
-    #### 6.2.1 Spatial domains based on extracellular attention coefficients
+#### 6.2.1 Spatial domains based on extracellular attention coefficients
     ## 聚类并提取顺序（按行）
     saveFolder_geneAtt_02spatialModule = f"{save_folder_attention_gene_ci}/2.spatialModule/"
     nu.check_path(saveFolder_geneAtt_02spatialModule)
@@ -304,7 +302,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         value=st_data_use_sel.obs['emb_cluster'], title="subcluster",
         savename=f"{saveFolder_geneAtt_02spatialModule}/2.spatial_{ci}_subcluster1.pdf"
     )
-
 ![6](./figs/SeqFISH/6.png)
 
 #### 6.2.2 Identification of gene modules associated with spatial domains
@@ -349,7 +346,6 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 
         print(ci)
     adata_geneatt_patten.write_h5ad(f"{saveFolder_geneAtt_02spatialModule}/adata_geneatt_patten.h5")
-
 ![7](./figs/SeqFISH/7.png)
 
 #### 6.2.3 Intracellular and extracellular attention coefficients for feature genes in a given spatial domain
@@ -485,10 +481,10 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
         att_gene_re_sel_df_patten, att_gene_cc_sel_df_patten, 
         star_type='mean', cutrate=2.0
     )
-
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
