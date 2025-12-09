@@ -3,7 +3,7 @@
 
 **DAGAST** is an interpretable deep learning model designed to decipher cellular developmental trajectories and their regulatory networks from spatial transcriptomics data. By synergistically integrating extracellular microenvironmental signals and intracellular gene regulatory information through a dual-branch attention mechanism, DAGAST accurately infers cell fate transitions and identifies key functional genes and spatial domains governing biological processes.
 
-<p align = "center"><img src="./Tutorial/figs/Flowchart.png" width="500" /></p>
+<p align = "center"><img src="./Tutorial/figs/Fig1.tif" width="500" /></p>
 
 ---
 
@@ -28,6 +28,7 @@ Development  and application of a dual-branch mechanism-based algorithm for infe
 ## Improvements
 
 We welcome any comments about DAGAST, and if you find bugs or have any ideas, feel free to leave a comment FAQ. DAGAST doesn't fully test on macOS.
+
 
 
 
