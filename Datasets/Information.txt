@@ -1,0 +1,3 @@
+The SeqFISH dataset of early mouse embryonic development (GSE197353) (Sampath Kumar et al., 2023)
+The Stereo-seq dataset of axolotl telencephalon regeneration (CNP0002068) (Wei et al., 2022)
+The Visium HD dataset of the mouse cerebral cortex (10x Genomics, https://www.10xgenomics.com/datasets/visium-hd-cytassist-gene-expression-libraries-of-mouse-brain-he-v4).
