@@ -14,13 +14,13 @@ In this section, we will demonstrate the use of `Cell-DAG` on the [SeqFISH datas
     import seaborn as sns
     import matplotlib.pyplot as plt
     from tqdm import tqdm
-    import DAGAST as dt     # import DAGAST
+    import CellDAG as dt     # import CellDAG
     import warnings
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()   
 
     ## Version and path
-    sample_name = "DAGAST"
+    sample_name = "CellDAG"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/SeqFISH/"
     save_folder = f"{data_folder}/results/{sample_name}"
@@ -88,7 +88,7 @@ In this section, we will demonstrate the use of `Cell-DAG` on the [SeqFISH datas
     save_folder_cluster = f"{save_folder}/2.spatial_cluster/"
     dt.check_path(save_folder_cluster)
 
-    trainer = dt.DAGAST_Trainer(args, st_data, st_data_use) # Build DAGAST Trainer
+    trainer = dt.CellDAG_Trainer(args, st_data, st_data_use) # Build CellDAG Trainer
     trainer.init_train()                                    # Build Model, neighbor
     trainer.train_stage1(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl") 
 
@@ -484,6 +484,7 @@ In this section, we will demonstrate the use of `Cell-DAG` on the [SeqFISH datas
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
