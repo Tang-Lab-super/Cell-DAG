@@ -1,11 +1,11 @@
 # Tutorial 2: Application on Stereo-seq axolotl telencephalon brain dataset.
-In this section, we will demonstrate the use of DAGAST for spatial trajectory inference and regulatory network deciphering in Stereo-seq [axolotl telencephalon brain data](https://www.science.org/doi/10.1126/science.abp9444). The original data can be downloaded at https://-db.cngb.org/stomics/artista. We use 15DPI data for demonstration.  
+In this section, we will demonstrate the use of Cell-DAG for spatial trajectory inference and regulatory network deciphering in Stereo-seq [axolotl telencephalon brain data](https://www.science.org/doi/10.1126/science.abp9444). The original data can be downloaded at https://-db.cngb.org/stomics/artista. We use 15DPI data for demonstration.  
 
 ---
 
-### 1.Load DAGAST and set path
+### 1.Load Cell-DAG and set path
 
-    ## Load DAGAST
+    ## Load Cell-DAG (DAGAST)
     import os 
     import torch
     import numpy as np
@@ -352,6 +352,7 @@ In this section, we will demonstrate the use of DAGAST for spatial trajectory in
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
