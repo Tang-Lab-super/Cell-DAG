@@ -14,13 +14,13 @@ In this section, we will demonstrate the use of Cell-DAG for spatial trajectory 
     import seaborn as sns
     import matplotlib.pyplot as plt
     from tqdm import tqdm
-    import DAGAST as dt     # import DAGAST
+    import CellDAG as dt     # import CellDAG
     import warnings
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()   
 
     ## Version and path
-    sample_name = "DAGAST"
+    sample_name = "CellDAG"
     root_path = "/public3/Shigw/"
     data_folder = f"{root_path}/datasets/Stereo-seq/regeneration/"
     save_folder = f"{data_folder}/results/{sample_name}"
@@ -352,6 +352,7 @@ In this section, we will demonstrate the use of Cell-DAG for spatial trajectory 
 ![6](./figs/Stereo-seq/6.png)
 
 ---
+
 
 
 
