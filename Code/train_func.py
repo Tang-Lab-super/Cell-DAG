@@ -1,5 +1,5 @@
 # shigw 2025-3-15
-# train DAGAST function
+# train CellDAG function
 
 import torch
 import numpy as np
@@ -320,3 +320,4 @@ def get_ptime(adata):
     if adata.obs['ptime'][adata.obs['start_cluster']==1].mean() > 0.5:
         adata.obs['ptime'] = 1 - adata.obs['ptime']
     return adata
+
