@@ -1,11 +1,11 @@
 # Tutorial 3: Application on 10x Visium HD mouse cortex dataset.
-This section demonstrates the application of DAGAST for spatial trajectory inference and regulatory network deciphering on the 10x Genomics Visium HD mouse cortex dataset. The raw data are available from the designated link (https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-embryo-fresh-frozen).
+This section demonstrates the application of Cell-DAG for spatial trajectory inference and regulatory network deciphering on the 10x Genomics Visium HD mouse cortex dataset. The raw data are available from the designated link (https://www.10xgenomics.com/datasets/visium-hd-three-prime-mouse-embryo-fresh-frozen).
 
 ---
 
-### 1.Load DAGAST and set path
+### 1.Load Cell-DAG and set path
 
-    ## Load DAGAST
+    ## Load Cell-DAG (DAGAST)
     import os
     import torch
     import numpy as np
@@ -456,6 +456,7 @@ This section demonstrates the application of DAGAST for spatial trajectory infer
 ![8](./figs/VisiumHD/8.png)
 
 ---
+
 
 
 
