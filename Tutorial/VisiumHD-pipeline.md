@@ -14,13 +14,13 @@ This section demonstrates the application of Cell-DAG for spatial trajectory inf
     import seaborn as sns
     import matplotlib.pyplot as plt
     from tqdm import tqdm
-    import DAGAST as dt     # import DAGAST
+    import CellDAG as dt     # import CellDAG
     import warnings
     warnings.filterwarnings("ignore")
     torch.cuda.empty_cache()
 
     ## Version and path
-    sample_name = "DAGAST"
+    sample_name = "CellDAG"
     data_folder_h5ad = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
     data_folder_pi = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
     data_folder_gene = "/public2/yulong/yuhanDir/MouseEmbryo/square_016um"
@@ -456,6 +456,7 @@ This section demonstrates the application of Cell-DAG for spatial trajectory inf
 ![8](./figs/VisiumHD/8.png)
 
 ---
+
 
 
 
