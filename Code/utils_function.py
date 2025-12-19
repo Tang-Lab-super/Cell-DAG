@@ -9,7 +9,7 @@ import seaborn as sns
 from matplotlib import rcParams
 
 import scipy
-import DAGAST as nu
+import CellDAG as nu
 from anndata import AnnData
 from sklearn.neighbors import kneighbors_graph, NearestNeighbors
 from tqdm import tqdm
