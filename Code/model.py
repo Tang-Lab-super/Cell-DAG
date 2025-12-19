@@ -151,7 +151,7 @@ class PowerIterationGradient(nn.Module):
         return grad, A
 
 
-#### DAGAST modules
+#### CellDAG modules
 class NeighborAttentionLayer(nn.Module):
     def __init__(self, in_features, emb_features, n_neighbor, dk_re, dropout, leakyalpha, concat=True):
         super(NeighborAttentionLayer, self).__init__()
@@ -339,10 +339,10 @@ class GATmodule_Niche(nn.Module):
         return self.convs.get_attention()
 
 
-#### DAGAST models
-class DAGAST(nn.Module):
+#### CellDAG models
+class CellDAG(nn.Module):
     def __init__(self, args, adj, indices_use):
-        super(DAGAST, self).__init__()
+        super(CellDAG, self).__init__()
 
         num_input = args["num_input"]
         num_emb = args["num_emb"]
@@ -441,9 +441,9 @@ class DAGAST(nn.Module):
 
 
 #### Trainer models
-class DAGAST_Trainer(nn.Module):
+class CellDAG_Trainer(nn.Module):
     def __init__(self, args, st_data, st_data_use):
-        super(DAGAST_Trainer, self).__init__()
+        super(CellDAG_Trainer, self).__init__()
 
         self.args = args
         self.st_data = st_data
@@ -474,7 +474,7 @@ class DAGAST_Trainer(nn.Module):
         self.indices_torch = np_to_torch(self.indices_use, self.args["device"], dtype=torch.long, requires_grad=False)
 
         ## model
-        self.model = DAGAST(self.args, self.kNNGraph_use, self.indices_use)
+        self.model = CellDAG(self.args, self.kNNGraph_use, self.indices_use)
         self.model.to(self.args["device"])
 
 
@@ -553,5 +553,6 @@ class DAGAST_Trainer(nn.Module):
         self.st_data_use = get_ptime(self.st_data_use)
         self.st_data_use.uns["E_grid"], self.st_data_use.uns["V_grid"] = get_velocity(
             self.st_data_use, basis="spatial", n_neigh_pos=knn, grid_num=grid_num, smooth=smooth, density=density)
+
 
 
