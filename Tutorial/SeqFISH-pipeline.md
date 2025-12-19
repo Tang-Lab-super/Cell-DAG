@@ -1,11 +1,11 @@
 # Tutorial 1: Application on SeqFISH mouse embryo dataset. 
-In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset(Lohoff, T. et al. 2022)](https://doi.org/10.1038/s41587-021-01006-2) for spatial trajectory inference and regulatory network deciphering. The original data can be downloaded from the https://marionilab.cruk.cam.ac.uk/SpatialMouseAtlas/, and the demonstration data uses Embryo1.
+In this section, we will demonstrate the use of `Cell-DAG` on the [SeqFISH dataset(Lohoff, T. et al. 2022)](https://doi.org/10.1038/s41587-021-01006-2) for spatial trajectory inference and regulatory network deciphering. The original data can be downloaded from the https://marionilab.cruk.cam.ac.uk/SpatialMouseAtlas/, and the demonstration data uses Embryo1.
 
 ---
 
-### 1.Load DAGAST and set path
+### 1.Load Cell-DAG and set path
 
-    ## Load DAGAST
+    ## Load Cell-DAG (DAGAST)
     import os 
     import torch
     import numpy as np
@@ -83,7 +83,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
     )
 ![1](./figs/SeqFISH/1.png)
 
-### 4.Building and training the DAGAST model
+### 4.Building and training the Cell-DAG model
 #### 4.1 Stage 1 training
     save_folder_cluster = f"{save_folder}/2.spatial_cluster/"
     dt.check_path(save_folder_cluster)
@@ -484,6 +484,7 @@ In this section, we will demonstrate the use of `DAGAST` on the [SeqFISH dataset
 ![8](./figs/SeqFISH/8.png)
 
 ---
+
 
 
 
