@@ -7,7 +7,7 @@ from .model import *
 
 
 """
-# DAGAST使用简介
+# 模型使用简介
 ######################### 1. 设置超参数 ########################
 dt.setup_seed(SEED)
 torch.cuda.empty_cache()     
@@ -56,7 +56,7 @@ sc.pp.scale(st_data)
 st_data_use = st_data[st_data.obs.celltypes.isin(celltypes), :].copy()      ## 选取指定细胞 
 
 ######################### 3. 构建模型，训练模型 ########################
-trainer = dt.DAGAST_Trainer(args, st_data, st_data_use)     # 构建DAGAST训练器
+trainer = dt.CellDAG_Trainer(args, st_data, st_data_use)     # 构建CellDAG训练器
 trainer.init_train()                                        # 构建细胞邻居关系、初始化数据、构建模型
 trainer.train_stage1(f"{save_folder_cluster}/model_{sample_name}_stage1.pkl")   # 预训练
 
@@ -72,4 +72,5 @@ trainer.get_Trajectory_Ptime(knn, grid_num=50, smooth=0.5, density=0.7) # 获取
 ######################### 4. 验证结果 ########################
 st_data, st_data_use = trainer.st_data, trainer.st_data_use
 model = trainer.model
+
 """
